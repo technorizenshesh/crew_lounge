@@ -298,8 +298,10 @@ class CommonWidgets {
       width: width ?? double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: inAsyncCall ? Colors.grey.withOpacity(0.5) : primary3Color,
+        color: inAsyncCall ? Colors.grey.withOpacity(0.2) : primary3Color,
+        borderRadius: BorderRadius.circular(10.px),
       ),
+      clipBehavior: Clip.hardEdge,
       child: inAsyncCall
           ? Stack(
               alignment: Alignment.center,
@@ -498,6 +500,62 @@ class CommonWidgets {
     );
   }
 
+  static countryCodePicker(
+      {ValueChanged<CountryCode>? onChanged, String? initialSelection}) {
+    return CountryCodePicker(
+      boxDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.px),
+        border: Border.all(
+          color: Theme.of(Get.context!).primaryColor,
+          width: .8.px,
+        ),
+      ),
+      searchDecoration: InputDecoration(
+        contentPadding: EdgeInsets.zero,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.px),
+          borderSide: BorderSide(
+            width: .8.px,
+            color: Theme.of(Get.context!).primaryColor,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.px),
+          borderSide: BorderSide(
+            width: .8.px,
+            color: Theme.of(Get.context!).primaryColor,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.px),
+          borderSide: BorderSide(
+            width: .8.px,
+            color: Theme.of(Get.context!).primaryColor,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.px),
+          borderSide: BorderSide(
+            width: .8.px,
+            color: Theme.of(Get.context!).colorScheme.onSecondaryContainer,
+          ),
+        ),
+      ),
+      padding: EdgeInsets.zero,
+      showFlagMain: true,
+      onChanged: onChanged,
+      initialSelection: initialSelection ?? 'IN',
+      showCountryOnly: false,
+      showDropDownButton: false,
+      showOnlyCountryWhenClosed: false,
+      alignLeft: false,
+      textStyle: Theme.of(Get.context!)
+          .textTheme
+          .displayMedium
+          ?.copyWith(fontSize: 14.px),
+    );
+  }
+
   static Widget commonTextField({
     double? elevation,
     String? hintText,
@@ -681,62 +739,6 @@ class CommonWidgets {
         onCompleted: onCompleted,
         autoDismissKeyboard: autoDismissKeyboard,
       );
-
-  static countryCodePicker(
-      {ValueChanged<CountryCode>? onChanged, String? initialSelection}) {
-    return CountryCodePicker(
-      boxDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.px),
-        border: Border.all(
-          color: Theme.of(Get.context!).primaryColor,
-          width: .8.px,
-        ),
-      ),
-      searchDecoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14.px),
-          borderSide: BorderSide(
-            width: .8.px,
-            color: Theme.of(Get.context!).primaryColor,
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14.px),
-          borderSide: BorderSide(
-            width: .8.px,
-            color: Theme.of(Get.context!).primaryColor,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14.px),
-          borderSide: BorderSide(
-            width: .8.px,
-            color: Theme.of(Get.context!).primaryColor,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14.px),
-          borderSide: BorderSide(
-            width: .8.px,
-            color: Theme.of(Get.context!).colorScheme.onSecondaryContainer,
-          ),
-        ),
-      ),
-      padding: EdgeInsets.zero,
-      showFlagMain: true,
-      onChanged: onChanged,
-      initialSelection: initialSelection ?? 'IN',
-      showCountryOnly: false,
-      showDropDownButton: false,
-      showOnlyCountryWhenClosed: false,
-      alignLeft: false,
-      textStyle: Theme.of(Get.context!)
-          .textTheme
-          .displayMedium
-          ?.copyWith(fontSize: 14.px),
-    );
-  }
 
   static Future<bool> internetConnectionCheckerMethod() async {
     try {

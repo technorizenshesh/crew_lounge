@@ -74,6 +74,7 @@ class NewPostView extends GetView<NewPostController> {
                       ),
                       Expanded(
                           child: CommonWidgets.commonTextFieldForLoginSignUP(
+                              focusNode: controller.captionFocus,
                               hintText: StringConstants.writeACaption,
                               controller: controller.captionController,
                               isCard: controller.isCaption.value,
@@ -82,23 +83,42 @@ class NewPostView extends GetView<NewPostController> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 50.px,
+                Padding(
+                  padding: EdgeInsets.only(left: 10.px, right: 10.px),
+                  child: CommonWidgets.commonTextFieldForLoginSignUP(
+                      focusNode: controller.locationFocus,
+                      hintText: StringConstants.selectLocation,
+                      controller: controller.locationController,
+                      isCard: controller.isLocation.value,
+                      readOnly: true,
+                      hintStyle: MyTextStyle.titleStyle14b,
+                      style: MyTextStyle.titleStyle14bb,
+                      onTap: () {
+                        controller.clickOnAllLocationsTextField();
+                      }),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CommonWidgets.appIcons(
-                        assetName: IconConstants.icLocation,
-                        width: 25.px,
-                        height: 25.px,
-                        fit: BoxFit.fill),
-                    SizedBox(
-                      width: 5.px,
-                    ),
-                    CommonWidgets.gradientText(
-                        StringConstants.addLocation, 16.px)
-                  ],
+                SizedBox(
+                  height: 20.px,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    controller.clickOnAllLocationsTextField();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CommonWidgets.appIcons(
+                          assetName: IconConstants.icLocation,
+                          width: 25.px,
+                          height: 25.px,
+                          fit: BoxFit.fill),
+                      SizedBox(
+                        width: 5.px,
+                      ),
+                      CommonWidgets.gradientText(
+                          StringConstants.addLocation, 16.px)
+                    ],
+                  ),
                 )
               ],
             ),

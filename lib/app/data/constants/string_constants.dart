@@ -59,6 +59,7 @@ class StringConstants {
   static const String newPost = 'New Post';
   static const String gallery = 'Gallery';
   static const String writeACaption = 'Write a Caption';
+  static const String selectLocation = 'Select Location';
   static const String addLocation = 'Add Location';
   static const String editProfile = 'Edit Profile';
   static const String shareProfile = 'Share Profile';
@@ -87,6 +88,8 @@ class StringConstants {
   static const String currentPassword = 'Current Password';
   static const String changePassword = 'Change Password';
   static const String upload = 'UPLOAD';
+  static const String camera = 'Camera';
+  static const String typeHere = 'Type Here';
 
   static const String defaultNetworkImage =
       'https://media.istockphoto.com/photos/young-beautiful-woman-picture-id1294339577?b=1&k=20&m=1294339577&s=170667a&w=0&h=_5-SM0Dmhb1fhRdz64lOUJMy8oic51GB_2_IPlhCCnU=';

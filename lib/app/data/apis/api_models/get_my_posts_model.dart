@@ -1,17 +1,17 @@
-class GetPostListModel {
+class GetMyPostModel {
   String? status;
   String? message;
-  List<GetPostResult>? result;
+  List<GetMyPostResult>? result;
 
-  GetPostListModel({this.status, this.message, this.result});
+  GetMyPostModel({this.status, this.message, this.result});
 
-  GetPostListModel.fromJson(Map<String, dynamic> json) {
+  GetMyPostModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['result'] != null) {
-      result = <GetPostResult>[];
+      result = <GetMyPostResult>[];
       json['result'].forEach((v) {
-        result!.add(GetPostResult.fromJson(v));
+        result!.add(GetMyPostResult.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class GetPostListModel {
   }
 }
 
-class GetPostResult {
+class GetMyPostResult {
   String? id;
   String? userId;
   String? image;
@@ -36,11 +36,12 @@ class GetPostResult {
   String? lat;
   String? lon;
   String? dateTime;
+  String? type;
   String? distance;
   String? userName;
   String? userImage;
 
-  GetPostResult(
+  GetMyPostResult(
       {this.id,
       this.userId,
       this.image,
@@ -49,11 +50,12 @@ class GetPostResult {
       this.lat,
       this.lon,
       this.dateTime,
+      this.type,
       this.distance,
       this.userName,
       this.userImage});
 
-  GetPostResult.fromJson(Map<String, dynamic> json) {
+  GetMyPostResult.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     image = json['image'];
@@ -62,6 +64,7 @@ class GetPostResult {
     lat = json['lat'];
     lon = json['lon'];
     dateTime = json['date_time'];
+    type = json['type'];
     distance = json['distance'];
     userName = json['user_name'];
     userImage = json['user_image'];
@@ -77,6 +80,7 @@ class GetPostResult {
     data['lat'] = lat;
     data['lon'] = lon;
     data['date_time'] = dateTime;
+    data['type'] = type;
     data['distance'] = distance;
     data['user_name'] = userName;
     data['user_image'] = userImage;

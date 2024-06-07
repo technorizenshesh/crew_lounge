@@ -38,4 +38,5 @@ class IconConstants {
   static const String icMessage = 'assets/icons/ic_message.png';
   static const String icFire = 'assets/icons/ic_fire.png';
   static const String icDiamond = 'assets/icons/ic_diamond.png';
+  static const String icSend = 'assets/icons/ic_send.png';
 }

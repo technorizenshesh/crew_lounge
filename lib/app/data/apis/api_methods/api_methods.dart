@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import '../../../../common/http_methods.dart';
 import '../api_constants/api_url_constants.dart';
 import '../api_models/get_add_post_model.dart';
+import '../api_models/get_chat_message_model.dart';
+import '../api_models/get_my_posts_model.dart';
 import '../api_models/get_user_model.dart';
 
 class ApiMethods {
@@ -154,10 +156,32 @@ class ApiMethods {
 
   static Future<GetPostListModel?> getPostsApi({
     void Function(int)? checkResponse,
+    required Map<String, dynamic> queryParameters,
   }) async {
     GetPostListModel? getPostListModel;
-    http.Response? response = await MyHttp.getMethod(
-      url: ApiUrlConstants.endPointOfGetPosts,
+    http.Response? response = await MyHttp.getMethodParams(
+      queryParameters: queryParameters,
+      baseUri: ApiUrlConstants.baseUrlForGetMethodParams,
+      endPointUri: ApiUrlConstants.endPointOfGetPosts,
+      checkResponse: checkResponse,
+    );
+    if (response != null) {
+      getPostListModel = GetPostListModel.fromJson(jsonDecode(response.body));
+      return getPostListModel;
+    }
+    return null;
+  }
+
+  /// Get Like Post LIST ...
+  static Future<GetPostListModel?> getLikePostsApi({
+    void Function(int)? checkResponse,
+    required Map<String, dynamic> queryParameters,
+  }) async {
+    GetPostListModel? getPostListModel;
+    http.Response? response = await MyHttp.getMethodParams(
+      queryParameters: queryParameters,
+      baseUri: ApiUrlConstants.baseUrlForGetMethodParams,
+      endPointUri: ApiUrlConstants.endPointOfGetLikePosts,
       checkResponse: checkResponse,
     );
     if (response != null) {
@@ -182,6 +206,63 @@ class ApiMethods {
       simpleResponseModel =
           SimpleResponseModel.fromJson(jsonDecode(response.body));
       return simpleResponseModel;
+    }
+    return null;
+  }
+
+  /// Get My Posts List ....
+  static Future<GetMyPostModel?> getMyPostsApi({
+    void Function(int)? checkResponse,
+    required Map<String, dynamic> queryParameters,
+  }) async {
+    GetMyPostModel? getPostListModel;
+    http.Response? response = await MyHttp.getMethodParams(
+      queryParameters: queryParameters,
+      baseUri: ApiUrlConstants.baseUrlForGetMethodParams,
+      endPointUri: ApiUrlConstants.endPointOfGetMyPosts,
+      checkResponse: checkResponse,
+    );
+    if (response != null) {
+      getPostListModel = GetMyPostModel.fromJson(jsonDecode(response.body));
+      return getPostListModel;
+    }
+    return null;
+  }
+
+  ///Get Chat message by other user id...
+  static Future<GetChatModel?> getChat(
+      {void Function(int)? checkResponse,
+      Map<String, dynamic>? bodyParams,
+      bool wantSnackBar = true}) async {
+    GetChatModel getChatModel;
+    http.Response? response = await MyHttp.postMethod(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfGetChat,
+      checkResponse: checkResponse,
+      wantSnackBar: wantSnackBar,
+    );
+    if (response != null) {
+      getChatModel = GetChatModel.fromJson(jsonDecode(response.body));
+      return getChatModel;
+    }
+    return null;
+  }
+
+  static Future<http.Response?> insertChat(
+      {void Function(int)? checkResponse,
+      required Map<String, dynamic> bodyParams,
+      File? image,
+      String? imageKey,
+      bool wantSnackBar = true}) async {
+    http.Response? response = await MyHttp.multipart(
+      url: ApiUrlConstants.endPointOfInsertChat,
+      image: image,
+      imageKey: imageKey,
+      checkResponse: checkResponse,
+      bodyParams: bodyParams,
+    );
+    if (response != null) {
+      return response;
     }
     return null;
   }

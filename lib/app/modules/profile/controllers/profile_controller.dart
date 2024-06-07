@@ -1,3 +1,4 @@
+import 'package:crew_lounge/app/data/apis/api_models/get_my_posts_model.dart';
 import 'package:crew_lounge/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +12,7 @@ class ProfileController extends GetxController {
 
   final inAsyncCall = true.obs;
   Map<String, String> queryParameters = {};
-
+  List<GetMyPostResult>? imagePostList;
   UserModel? userData;
 
   final count = 0.obs;
@@ -52,6 +53,19 @@ class ProfileController extends GetxController {
         await ApiMethods.getProfile(queryParameters: queryParameters);
     if (userModel != null) {
       userData = userModel;
+      increment();
+      getMyPostsApi();
+    }
+  }
+
+  Future<void> getMyPostsApi() async {
+    Map<String, dynamic> queryParameter = {
+      ApiKeyConstants.userId: userId,
+    };
+    GetMyPostModel? getPostListModel =
+        await ApiMethods.getMyPostsApi(queryParameters: queryParameter);
+    if (getPostListModel != null && getPostListModel.result != null) {
+      imagePostList = getPostListModel.result!;
       increment();
     }
   }

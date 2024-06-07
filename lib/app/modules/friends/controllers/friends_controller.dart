@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
+import '../../../data/apis/api_constants/api_key_constants.dart';
+import '../../../data/apis/api_methods/api_methods.dart';
+import '../../../data/apis/api_models/get_posts_model.dart';
+
 class FriendsController extends GetxController {
+  final inAsyncCall = true.obs;
   final List<SwipeItem> swipeItems = [];
   late MatchEngine matchEngine;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-  List<String> images = [
-    "https://media.istockphoto.com/photos/young-beautiful-woman-picture-id1294339577?b=1&k=20&m=1294339577&s=170667a&w=0&h=_5-SM0Dmhb1fhRdz64lOUJMy8oic51GB_2_IPlhCCnU=",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHZmgTTTZhXAoNOiDirLHYLSTieoUrSsZFnnmyCDPs_8_KLtgbpXWdEI9AL2yiqWEvaP4&usqp=CAU",
-    "https://image.shutterstock.com/image-photo/bowl-buddha-buckwheat-pumpkin-chicken-260nw-1259570605.jpg",
-    "https://images.unsplash.com/photo-1543353071-873f17a7a088?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZCUyMHByZXNlbnRhdGlvbnxlbnwwfHwwfHw%3D&w=1000&q=80",
-    "https://image.shutterstock.com/image-photo/food-photography-260nw-578546905.jpg"
-  ];
+  List<GetPostResult> likePostsList = [];
+
+  String userId = '';
 
   final count = 0.obs;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    for (int i = 0; i < images.length; i++) {
-      swipeItems.add(SwipeItem(
-          content: images[i],
-          likeAction: () {},
-          nopeAction: () {},
-          superlikeAction: () {},
-          onSlideUpdate: (SlideRegion? region) async {
-            print("Region $region");
-          }));
-      matchEngine = MatchEngine(swipeItems: swipeItems);
-    }
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    userId = sp.getString(ApiKeyConstants.userId) ?? '';
+    await getLikePostsApi();
   }
 
   @override
@@ -43,4 +37,39 @@ class FriendsController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  Future<void> getLikePostsApi() async {
+    Map<String, dynamic> queryParameter = {
+      ApiKeyConstants.userId: userId,
+    };
+    GetPostListModel? getPostListModel =
+        await ApiMethods.getLikePostsApi(queryParameters: queryParameter);
+    if (getPostListModel != null && getPostListModel.result != null) {
+      likePostsList = getPostListModel.result!;
+      await setDataOnSwipeCard(getPostListModel.result!);
+      inAsyncCall.value = false;
+      // increment();
+    }
+  }
+
+  setDataOnSwipeCard(List<GetPostResult> list) {
+    swipeItems.clear();
+    for (int i = 0; i < list.length; i++) {
+      swipeItems.add(SwipeItem(
+          content: list[i],
+          likeAction: () {
+            print('Hello like...');
+          },
+          nopeAction: () {
+            print('Hello nope...');
+          },
+          superlikeAction: () {
+            print('Hello super like...');
+          },
+          onSlideUpdate: (SlideRegion? region) async {
+            print("Region $region");
+          }));
+      matchEngine = MatchEngine(swipeItems: swipeItems);
+    }
+  }
 }

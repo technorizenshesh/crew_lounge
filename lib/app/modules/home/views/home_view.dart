@@ -120,6 +120,7 @@ class HomeView extends GetView<HomeController> {
         padding: EdgeInsets.all(1.px),
         decoration: CommonWidgets.kGradientBoxDecoration(
             borderRadius: 10.px, showGradientBorder: true),
+        clipBehavior: Clip.hardEdge,
         child: SwipeCards(
           itemBuilder: (BuildContext context, int index) {
             GetPostResult item = controller.postList[index];
@@ -187,7 +188,7 @@ class HomeView extends GetView<HomeController> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    '1.5 km away',
+                                    '${item.distance} km away',
                                     style: MyTextStyle.titleStyle16w,
                                     maxLines: 1,
                                   ),

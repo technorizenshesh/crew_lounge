@@ -28,6 +28,7 @@ abstract class Routes {
   static const NOTIFICATION = _Paths.NOTIFICATION;
   static const CLOSE_FRIENDS = _Paths.CLOSE_FRIENDS;
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
+  static const MESSAGE = _Paths.MESSAGE;
 }
 
 abstract class _Paths {
@@ -57,4 +58,5 @@ abstract class _Paths {
   static const NOTIFICATION = '/notification';
   static const CLOSE_FRIENDS = '/close-friends';
   static const CHANGE_PASSWORD = '/change-password';
+  static const MESSAGE = '/message';
 }

@@ -13,6 +13,7 @@ class ApiKeyConstants {
   static const String message = 'message';
   static const String otp = 'otp';
   static const String userId = 'user_id';
+  static const String otherUserId = 'other_user_id';
   static const String countryId = 'country_id';
   static const String stateId = 'state_id';
   static const String description = 'description';
@@ -24,4 +25,9 @@ class ApiKeyConstants {
   static const String lon = 'lon';
   static const String location = 'location';
   static const String postId = 'post_id';
+  static const String countryCode = 'country_code';
+  static const String senderId = 'sender_d';
+  static const String receiverId = 'receiver_id';
+  static const String chatMessage = 'chat_message';
+  static const String chatImage = 'chat_Image';
 }

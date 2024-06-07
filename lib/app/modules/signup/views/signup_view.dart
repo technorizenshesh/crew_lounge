@@ -15,35 +15,35 @@ class SignupView extends GetView<SignupController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Obx(() {
           controller.count.value;
-          return Column(
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 230.px,
-                    child: CommonWidgets.appIcons(
-                        assetName: ImageConstants.imgLoginBackground,
-                        fit: BoxFit.fill,
-                        width: double.infinity,
-                        borderRadius: 0.px,
-                        height: 230.px),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 180.px),
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height - 180.px,
-                    padding: EdgeInsets.only(
-                        left: 20.px, right: 20.px, top: 30.px, bottom: 10.px),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40.px),
-                            topRight: Radius.circular(40.px))),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      height: 230.px,
+                      child: CommonWidgets.appIcons(
+                          assetName: ImageConstants.imgLoginBackground,
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                          borderRadius: 0.px,
+                          height: 230.px),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 180.px),
+                      width: double.infinity,
+                      // height: MediaQuery.of(context).size.height - 210.px,
+                      padding: EdgeInsets.only(
+                          left: 20.px, right: 20.px, top: 30.px, bottom: 20.px),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40.px),
+                              topRight: Radius.circular(40.px))),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -97,19 +97,22 @@ class SignupView extends GetView<SignupController> {
                             height: 10.px,
                           ),
                           CommonWidgets.commonTextFieldForLoginSignUP(
-                              focusNode: controller.focusMobile,
-                              controller: controller.mobileController,
-                              isCard: controller.isMobile.value,
-                              hintText: StringConstants.mobileNumber,
-                              hintStyle: MyTextStyle.titleStyle14b,
-                              style: MyTextStyle.titleStyle14bb,
-                              keyboardType: TextInputType.number,
-                              borderRadius: 30.px,
-                              prefixIcon: CommonWidgets.appIcons(
-                                  assetName: IconConstants.icPhone,
-                                  width: 20.px,
-                                  height: 20.px,
-                                  fit: BoxFit.fill)),
+                            focusNode: controller.focusMobile,
+                            controller: controller.mobileController,
+                            isCard: controller.isMobile.value,
+                            hintText: StringConstants.mobileNumber,
+                            hintStyle: MyTextStyle.titleStyle14b,
+                            style: MyTextStyle.titleStyle14bb,
+                            keyboardType: TextInputType.number,
+                            borderRadius: 30.px,
+                            horizontalPadding: 0,
+                            prefixIconHorizontal: 8,
+                            prefixIcon: CommonWidgets.countryCodePicker(
+                                onChanged: (value) =>
+                                    controller.clickOnCountryCode(value: value),
+                                initialSelection:
+                                    controller.countryDailCode.value),
+                          ),
                           SizedBox(
                             height: 10.px,
                           ),
@@ -206,7 +209,7 @@ class SignupView extends GetView<SignupController> {
                           ),
                           CommonWidgets.commonElevatedButton(
                               onPressed: () {
-                                controller.clickOnSignUpButton();
+                                controller.getCurrentPosition();
                               },
                               child: Text(
                                 StringConstants.signUp,
@@ -242,11 +245,11 @@ class SignupView extends GetView<SignupController> {
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           );
         }));
   }

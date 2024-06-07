@@ -65,7 +65,11 @@ class HomeController extends GetxController {
   }
 
   Future<void> getPostsApi() async {
-    GetPostListModel? getPostListModel = await ApiMethods.getPostsApi();
+    Map<String, dynamic> queryParameter = {
+      ApiKeyConstants.userId: userId,
+    };
+    GetPostListModel? getPostListModel =
+        await ApiMethods.getPostsApi(queryParameters: queryParameter);
     if (getPostListModel != null && getPostListModel.result != null) {
       postList = getPostListModel.result!;
       await setDataOnSwipeCard(getPostListModel.result!);
