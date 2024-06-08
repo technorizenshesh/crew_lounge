@@ -12,7 +12,7 @@ class ProfileController extends GetxController {
 
   final inAsyncCall = true.obs;
   Map<String, String> queryParameters = {};
-  List<GetMyPostResult>? imagePostList;
+  List<GetMyPostResult> imagePostList = [];
   UserModel? userData;
 
   final count = 0.obs;
@@ -38,7 +38,7 @@ class ProfileController extends GetxController {
   void increment() => count.value++;
 
   clickOnEditProfile() {
-    Get.toNamed(Routes.EDIT_PROFILE);
+    Get.toNamed(Routes.EDIT_PROFILE, arguments: userData!);
   }
 
   clickOnSetting() {

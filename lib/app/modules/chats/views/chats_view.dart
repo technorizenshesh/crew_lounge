@@ -1,3 +1,4 @@
+import 'package:crew_lounge/app/data/apis/api_models/get_chat_user_model.dart';
 import 'package:crew_lounge/app/data/constants/icons_constant.dart';
 import 'package:crew_lounge/common/colors.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class ChatsView extends GetView<ChatsController> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical, child: showMessages()),
+                  scrollDirection: Axis.vertical, child: showUserList()),
             )
           ],
         );
@@ -135,38 +136,76 @@ class ChatsView extends GetView<ChatsController> {
     );
   }
 
-  Widget showMessages() {
-    return ListView.builder(
-      itemCount: controller.storiesName.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      padding: EdgeInsets.all(3.px),
-      itemBuilder: (context, index) {
-        //GetWalletListData item = myWalletList[index];
-        return ListTile(
-          onTap: () {
-            controller.clickOnMessage();
-          },
-          leading: CommonWidgets.appIcons(
-              assetName: controller.storiesImages[index],
-              width: 55.px,
-              height: 55.px,
-              fit: BoxFit.fill),
-          title: Text(
-            controller.storiesName[index],
-            style: MyTextStyle.titleStyle13bb,
-          ),
-          subtitle: Text(
-            'Typing...',
-            style: MyTextStyle.titleStyle12b,
-          ),
-          trailing: Text(
-            '20 min',
-            style: MyTextStyle.titleStyle12b,
-          ),
-        );
-      },
-    );
+  Widget showUserList() {
+    return controller.inAsyncCall.value
+        ? CommonWidgets.customProgressBar(
+            height: 350.px, inAsyncCall: controller.inAsyncCall.value)
+        : Column(
+            children: [
+              ListView.builder(
+                itemCount: controller.userList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.all(3.px),
+                itemBuilder: (context, index) {
+                  GetChatUserResult item = controller.userList[index];
+                  return ListTile(
+                    onTap: () {
+                      controller.clickOnMessage(index);
+                    },
+                    leading: CommonWidgets.imageView(
+                        image: item.image ?? '',
+                        width: 55.px,
+                        height: 55.px,
+                        borderRadius: BorderRadius.circular(28.px),
+                        defaultNetworkImage:
+                            StringConstants.defaultNetworkImage,
+                        fit: BoxFit.fill),
+                    title: Text(
+                      item.userName ?? '',
+                      style: MyTextStyle.titleStyle13bb,
+                    ),
+                    subtitle: Text(
+                      item.lastMessage ?? 'Typing...',
+                      style: MyTextStyle.titleStyle12b,
+                    ),
+                    trailing: SizedBox(
+                      height: 60.px,
+                      width: 80.px,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            item.timeAgo ?? '',
+                            style: MyTextStyle.titleStyle12b,
+                          ),
+                          item.noOfMessage != 0
+                              ? Container(
+                                  height: 18.px,
+                                  width: 18.px,
+                                  alignment: Alignment.center,
+                                  decoration:
+                                      CommonWidgets.kGradientBoxDecoration(
+                                          showGradientBorder: true,
+                                          borderRadius: 9.px),
+                                  child: Text(
+                                    item.noOfMessage.toString() ?? '0',
+                                    style: MyTextStyle.titleStyle12w,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 15.px,
+                                )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              if (controller.userList.isEmpty) CommonWidgets.dataNotFound()
+            ],
+          );
   }
 }

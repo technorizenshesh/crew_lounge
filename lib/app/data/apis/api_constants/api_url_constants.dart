@@ -11,6 +11,7 @@ class ApiUrlConstants {
   static const String endPointOfResetPassword = '${baseUrl}reset_password';
   static const String endPointOfCheckOtp = '${baseUrl}check_otp';
   static const String endPointOfGetProfile = '${baseUrl}get_profile';
+  static const String endPointOfUpdateProfile = '${baseUrl}update_profile';
   static const String endPointOfGetMyPosts = '/CrewLounget/api/get_my_posts';
   static const String endPointOfAddPosts = '${baseUrl}add_posts';
   static const String endPointOfGetPosts = '/CrewLounget/api/get_posts';

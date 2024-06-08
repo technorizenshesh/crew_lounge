@@ -3,13 +3,19 @@ import 'package:crew_lounge/app/data/constants/string_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/common_widgets.dart';
 import '../../../../common/text_styles.dart';
+import '../../../data/apis/api_constants/api_key_constants.dart';
+import '../../../data/apis/api_methods/api_methods.dart';
+import '../../../data/apis/api_models/get_chat_user_model.dart';
+import '../../../routes/app_pages.dart';
 
 class ChatsController extends GetxController {
   TextEditingController searchController = TextEditingController();
   final isSearch = false.obs;
+  String userId = '';
   FocusNode focusSearch = FocusNode();
   void startListener() {
     focusSearch.addListener(onFocusChange);
@@ -18,6 +24,8 @@ class ChatsController extends GetxController {
   void onFocusChange() {
     isSearch.value = focusSearch.hasFocus;
   }
+
+  List<GetChatUserResult> userList = [];
 
   List<String> storiesImages = [
     'assets/un_used_images/story1.png',
@@ -39,9 +47,13 @@ class ChatsController extends GetxController {
   ];
 
   final count = 0.obs;
+  final inAsyncCall = true.obs;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    userId = sp.getString(ApiKeyConstants.userId) ?? '';
+    await getChatUserListApi();
     startListener();
   }
 
@@ -60,8 +72,14 @@ class ChatsController extends GetxController {
   clickOnSearchIcon() {
     //showBottomSheetForChatting();
   }
-  clickOnMessage() {
-    showBottomSheetForChatting();
+  clickOnMessage(int index) {
+    Map<String, String> data = {
+      ApiKeyConstants.otherUserId: userList[index].id ?? '',
+      ApiKeyConstants.userName: userList[index].userName ?? '',
+      ApiKeyConstants.image: userList[index].image ?? '',
+    };
+    Get.toNamed(Routes.MESSAGE, parameters: data);
+    // showBottomSheetForChatting();
   }
 
   showBottomSheetForChatting() {
@@ -93,23 +111,6 @@ class ChatsController extends GetxController {
                         'Online',
                         style: MyTextStyle.titleStyle12b,
                       ),
-                      /* trailing: Row(
-                          children: [
-                            CommonWidgets.appIcons(
-                                assetName: storiesImages[0],
-                                width: 25.px,
-                                height: 25.px,
-                                fit: BoxFit.fill),
-                            SizedBox(
-                              width: 5.px,
-                            ),
-                            CommonWidgets.appIcons(
-                                assetName: storiesImages[0],
-                                width: 25.px,
-                                height: 25.px,
-                                fit: BoxFit.fill)
-                          ],
-                        )*/
                     ),
                   ],
                 ),
@@ -157,5 +158,24 @@ class ChatsController extends GetxController {
         );
       },
     );
+  }
+
+  Future<void> getChatUserListApi() async {
+    Map<String, String> bodyParams = {
+      ApiKeyConstants.receiverId: userId.toString(),
+    };
+    try {
+      GetChatUserModel? getChatUserModel = await ApiMethods.getChatUserList(
+          bodyParams: bodyParams, wantSnackBar: false);
+      if (getChatUserModel != null &&
+          getChatUserModel.result != null &&
+          getChatUserModel.result!.isNotEmpty) {
+        userList = getChatUserModel.result!;
+      }
+    } catch (e) {
+      inAsyncCall.value = false;
+    }
+    inAsyncCall.value = false;
+    increment();
   }
 }

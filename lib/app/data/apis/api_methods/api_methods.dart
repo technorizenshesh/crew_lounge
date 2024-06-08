@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crew_lounge/app/data/apis/api_models/get_chat_user_model.dart';
 import 'package:crew_lounge/app/data/apis/api_models/get_posts_model.dart';
 import 'package:crew_lounge/app/data/apis/api_models/get_simple_response_model.dart';
 import 'package:http/http.dart' as http;
@@ -135,6 +136,27 @@ class ApiMethods {
     return null;
   }
 
+  ///Update Profile Api Calling.....
+  static Future<UserModel?> updateProfileApi({
+    void Function(int)? checkResponse,
+    Map<String, dynamic>? bodyParams,
+    Map<String, File>? imageMap,
+  }) async {
+    UserModel? logInModel;
+    http.Response? response = await MyHttp.multipart(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfUpdateProfile,
+      imageMap: imageMap,
+      checkResponse: checkResponse,
+    );
+
+    if (response != null) {
+      logInModel = UserModel.fromJson(jsonDecode(response.body));
+      return logInModel;
+    }
+    return null;
+  }
+
   static Future<AddPostModel?> uploadNewPost(
       {void Function(int)? checkResponse,
       required Map<String, dynamic> bodyParams,
@@ -225,6 +247,25 @@ class ApiMethods {
     if (response != null) {
       getPostListModel = GetMyPostModel.fromJson(jsonDecode(response.body));
       return getPostListModel;
+    }
+    return null;
+  }
+
+  ///Get Chat UserList ...
+  static Future<GetChatUserModel?> getChatUserList(
+      {void Function(int)? checkResponse,
+      Map<String, dynamic>? bodyParams,
+      bool wantSnackBar = true}) async {
+    GetChatUserModel getChatUserModel;
+    http.Response? response = await MyHttp.postMethod(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfGetConversation,
+      checkResponse: checkResponse,
+      wantSnackBar: wantSnackBar,
+    );
+    if (response != null) {
+      getChatUserModel = GetChatUserModel.fromJson(jsonDecode(response.body));
+      return getChatUserModel;
     }
     return null;
   }

@@ -69,11 +69,11 @@ class HomeView extends GetView<HomeController> {
                         borderRadius: BorderRadius.circular(10.px)),
                     clipBehavior: Clip.hardEdge,
                     child: CommonWidgets.customProgressBar(
-                      height: 430.px,
+                      height: MediaQuery.of(context).size.height * 0.58,
                       inAsyncCall: controller.inAsyncCall.value,
                     ),
                   )
-                : cardView()
+                : cardView(context)
           ],
         ),
       );
@@ -112,9 +112,9 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget cardView() {
+  Widget cardView(BuildContext context) {
     return Container(
-        height: 430.px,
+        height: MediaQuery.of(context).size.height * 0.58,
         width: double.infinity,
         margin: EdgeInsets.only(left: 20.px, right: 20.px),
         padding: EdgeInsets.all(1.px),
@@ -130,7 +130,7 @@ class HomeView extends GetView<HomeController> {
                     borderRadius: BorderRadius.circular(10),
                     child: CommonWidgets.imageView(
                         image: item.image ?? '',
-                        height: 430.px,
+                        height: MediaQuery.of(context).size.height * 0.58,
                         width: double.infinity,
                         fit: BoxFit.cover,
                         defaultNetworkImage:
@@ -146,7 +146,7 @@ class HomeView extends GetView<HomeController> {
                           fit: BoxFit.fill),
                     )),
                 Positioned(
-                    top: 320.px,
+                    bottom: 0.px,
                     child: Container(
                       height: 110.px,
                       width: MediaQuery.of(context).size.width,
@@ -205,12 +205,17 @@ class HomeView extends GetView<HomeController> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 50.px),
-                                child: CommonWidgets.appIcons(
-                                    assetName: IconConstants.icMessage,
-                                    height: 30.px,
-                                    width: 30.px,
-                                    fit: BoxFit.fill,
-                                    borderRadius: 0.px),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    controller.clickOnChatIcon(index);
+                                  },
+                                  child: CommonWidgets.appIcons(
+                                      assetName: IconConstants.icMessage,
+                                      height: 30.px,
+                                      width: 30.px,
+                                      fit: BoxFit.fill,
+                                      borderRadius: 0.px),
+                                ),
                               ),
                             ],
                           ),
