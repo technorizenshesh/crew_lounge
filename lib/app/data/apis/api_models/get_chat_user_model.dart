@@ -1,14 +1,19 @@
-class UserModel {
+class GetChatUserModel {
   String? status;
   String? message;
-  Result? result;
+  List<GetChatUserResult>? result;
 
-  UserModel({this.status, this.message, this.result});
+  GetChatUserModel({this.status, this.message, this.result});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  GetChatUserModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    result = json['result'] != null ? Result.fromJson(json['result']) : null;
+    if (json['result'] != null) {
+      result = <GetChatUserResult>[];
+      json['result'].forEach((v) {
+        result!.add(GetChatUserResult.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -16,13 +21,13 @@ class UserModel {
     data['status'] = status;
     data['message'] = message;
     if (result != null) {
-      data['result'] = result!.toJson();
+      data['result'] = result!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Result {
+class GetChatUserResult {
   String? id;
   String? userName;
   String? email;
@@ -37,12 +42,18 @@ class Result {
   String? address;
   String? lat;
   String? lon;
-  String? gender;
-  String? dob;
   String? status;
   String? countryCode;
+  int? noOfMessage;
+  String? lastMessage;
+  String? lastImage;
+  String? date;
+  String? time;
+  String? timeAgo;
+  String? senderId;
+  String? receiverId;
 
-  Result(
+  GetChatUserResult(
       {this.id,
       this.userName,
       this.email,
@@ -57,12 +68,18 @@ class Result {
       this.address,
       this.lat,
       this.lon,
-      this.gender,
-      this.dob,
       this.status,
-      this.countryCode});
+      this.countryCode,
+      this.noOfMessage,
+      this.lastMessage,
+      this.lastImage,
+      this.date,
+      this.time,
+      this.timeAgo,
+      this.senderId,
+      this.receiverId});
 
-  Result.fromJson(Map<String, dynamic> json) {
+  GetChatUserResult.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['user_name'];
     email = json['email'];
@@ -77,10 +94,16 @@ class Result {
     address = json['address'];
     lat = json['lat'];
     lon = json['lon'];
-    gender = json['gender'];
-    dob = json['dob'];
     status = json['status'];
     countryCode = json['country_code'];
+    noOfMessage = json['no_of_message'];
+    lastMessage = json['last_message'];
+    lastImage = json['last_image'];
+    date = json['date'];
+    time = json['time'];
+    timeAgo = json['time_ago'];
+    senderId = json['sender_id'];
+    receiverId = json['receiver_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,10 +122,16 @@ class Result {
     data['address'] = address;
     data['lat'] = lat;
     data['lon'] = lon;
-    data['dob'] = dob;
-    data['gender'] = gender;
     data['status'] = status;
     data['country_code'] = countryCode;
+    data['no_of_message'] = noOfMessage;
+    data['last_message'] = lastMessage;
+    data['last_image'] = lastImage;
+    data['date'] = date;
+    data['time'] = time;
+    data['time_ago'] = timeAgo;
+    data['sender_id'] = senderId;
+    data['receiver_id'] = receiverId;
     return data;
   }
 }

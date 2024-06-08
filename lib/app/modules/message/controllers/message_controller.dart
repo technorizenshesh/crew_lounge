@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,7 +26,8 @@ class MessageController extends GetxController {
   Map<String, String?> parameters = Get.parameters;
   String otherUserId = '';
   String userId = '';
-  String userName = '';
+  String otherUserName = '';
+  String otherUserImage = '';
   String lastMessage = '';
 
   final inAsyncCall = false.obs;
@@ -49,7 +51,8 @@ class MessageController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userId = sharedPreferences.getString(ApiKeyConstants.userId) ?? '';
     otherUserId = parameters[ApiKeyConstants.otherUserId] ?? '';
-    userName = parameters[ApiKeyConstants.userName] ?? '';
+    otherUserName = parameters[ApiKeyConstants.userName] ?? '';
+    otherUserImage = parameters[ApiKeyConstants.image] ?? '';
     super.onInit();
     inAsyncCall.value = true;
     await onInitWork();
@@ -69,9 +72,15 @@ class MessageController extends GetxController {
 
   void increment() => count.value++;
 
+  String timeFormatAmPm(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedTime = DateFormat('hh:mm a').format(dateTime);
+    return formattedTime;
+  }
+
   void startPeriodicApiCalls() {
     bool isProcessing = false;
-    periodicTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+    periodicTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       if (!isProcessing) {
         isProcessing = true;
         try {
@@ -97,7 +106,7 @@ class MessageController extends GetxController {
 
   Future<void> getChatApi() async {
     bodyParams = {
-      ApiKeyConstants.senderId: '1',
+      ApiKeyConstants.senderId: otherUserId,
       ApiKeyConstants.receiverId: userId.toString(),
     };
     getChatModel =
@@ -136,52 +145,21 @@ class MessageController extends GetxController {
   Future<void> chatsApi() async {
     bodyParams = {
       ApiKeyConstants.senderId: userId.toString(),
-      ApiKeyConstants.receiverId: '1',
+      ApiKeyConstants.receiverId: otherUserId,
       ApiKeyConstants.chatMessage: textController.text.trim().toString(),
     };
+    print(
+        'ParamData:-${bodyParams.toString()},${ApiKeyConstants.chatImage},${image.value}');
     http.Response? response = await ApiMethods.insertChat(
         bodyParams: bodyParams,
         imageKey: ApiKeyConstants.chatImage,
         image: image.value,
         wantSnackBar: false);
     if (response != null && response.statusCode == 200) {
-      // await onInitWork();
       if (image.value != null) {
         Get.back();
       }
       await getChatApi();
-    }
-  }
-
-  String getDayOfMonthSuffix(int dayNum) {
-    if (!(dayNum >= 1 && dayNum <= 31)) {
-      throw Exception('Invalid day of month');
-    }
-    if (dayNum >= 10) {
-      return '$dayNum';
-    } else {
-      return '0$dayNum';
-    }
-  }
-
-  String getMonthOfYearSuffix(int monthNum) {
-    if (!(monthNum >= 1 && monthNum <= 12)) {
-      throw Exception('Invalid month of Year');
-    }
-
-    if (monthNum >= 10) {
-      return '$monthNum';
-    }
-
-    switch (monthNum % 10) {
-      case 1:
-        return '0$monthNum';
-      case 2:
-        return '0$monthNum';
-      case 3:
-        return '0$monthNum';
-      default:
-        return '0$monthNum';
     }
   }
 
@@ -192,7 +170,7 @@ class MessageController extends GetxController {
 
   jump() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.extentTotal);
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
   }
 
@@ -214,16 +192,6 @@ class MessageController extends GetxController {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         actions: <CupertinoDialogAction>[
-          CupertinoDialogAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              Get.back();
-              pickGallery(false, 'pdf');
-            },
-            child: Text('Pdf',
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    fontSize: 14.px, color: Theme.of(context).primaryColor)),
-          ),
           CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () {

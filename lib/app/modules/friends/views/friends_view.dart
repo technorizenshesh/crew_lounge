@@ -85,7 +85,7 @@ class FriendsView extends GetView<FriendsController> {
                           fit: BoxFit.fill),
                     )),
                 Positioned(
-                    top: MediaQuery.of(context).size.height * 0.55,
+                    bottom: 0.px,
                     child: Container(
                       height: 110.px,
                       width: MediaQuery.of(context).size.width,

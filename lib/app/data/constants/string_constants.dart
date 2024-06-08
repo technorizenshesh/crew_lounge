@@ -90,6 +90,9 @@ class StringConstants {
   static const String upload = 'UPLOAD';
   static const String camera = 'Camera';
   static const String typeHere = 'Type Here';
+  static const String chooseImageFromTheOptionsBelow =
+      'Choose Image From The Options Below';
+  static const String selectImage = 'Select Image';
 
   static const String defaultNetworkImage =
       'https://media.istockphoto.com/photos/young-beautiful-woman-picture-id1294339577?b=1&k=20&m=1294339577&s=170667a&w=0&h=_5-SM0Dmhb1fhRdz64lOUJMy8oic51GB_2_IPlhCCnU=';

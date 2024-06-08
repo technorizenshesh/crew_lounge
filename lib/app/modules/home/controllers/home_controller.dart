@@ -64,6 +64,15 @@ class HomeController extends GetxController {
     Get.toNamed(Routes.NOTIFICATION);
   }
 
+  clickOnChatIcon(int index) {
+    Map<String, String> data = {
+      ApiKeyConstants.otherUserId: postList[index].userId ?? '',
+      ApiKeyConstants.userName: postList[index].userName ?? '',
+      ApiKeyConstants.image: postList[index].userImage ?? '',
+    };
+    Get.toNamed(Routes.MESSAGE, parameters: data);
+  }
+
   Future<void> getPostsApi() async {
     Map<String, dynamic> queryParameter = {
       ApiKeyConstants.userId: userId,

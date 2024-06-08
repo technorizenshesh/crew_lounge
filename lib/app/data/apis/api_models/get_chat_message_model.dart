@@ -1,28 +1,28 @@
 class GetChatModel {
-  List<GetChatResult>? result;
+  String? status;
   String? message;
-  int? status;
+  List<GetChatResult>? result;
 
-  GetChatModel({this.result, this.message, this.status});
+  GetChatModel({this.status, this.message, this.result});
 
   GetChatModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
     if (json['result'] != null) {
       result = <GetChatResult>[];
       json['result'].forEach((v) {
         result!.add(GetChatResult.fromJson(v));
       });
     }
-    message = json['message'];
-    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (result != null) {
       data['result'] = result!.map((v) => v.toJson()).toList();
     }
-    data['message'] = message;
-    data['status'] = status;
     return data;
   }
 }
@@ -43,9 +43,7 @@ class GetChatResult {
   String? clearChat;
   String? status;
   String? date;
-  SenderDetail? senderDetail;
-  SenderDetail? receiverDetail;
-  String? timeAgo;
+  String? result;
 
   GetChatResult(
       {this.id,
@@ -63,9 +61,7 @@ class GetChatResult {
       this.clearChat,
       this.status,
       this.date,
-      this.senderDetail,
-      this.receiverDetail,
-      this.timeAgo});
+      this.result});
 
   GetChatResult.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,13 +79,7 @@ class GetChatResult {
     clearChat = json['clear_chat'];
     status = json['status'];
     date = json['date'];
-    senderDetail = json['sender_detail'] != null
-        ? SenderDetail.fromJson(json['sender_detail'])
-        : null;
-    receiverDetail = json['receiver_detail'] != null
-        ? SenderDetail.fromJson(json['receiver_detail'])
-        : null;
-    timeAgo = json['time_ago'];
+    result = json['result'];
   }
 
   Map<String, dynamic> toJson() {
@@ -109,35 +99,7 @@ class GetChatResult {
     data['clear_chat'] = clearChat;
     data['status'] = status;
     data['date'] = date;
-    if (senderDetail != null) {
-      data['sender_detail'] = senderDetail!.toJson();
-    }
-    if (receiverDetail != null) {
-      data['receiver_detail'] = receiverDetail!.toJson();
-    }
-    data['time_ago'] = timeAgo;
-    return data;
-  }
-}
-
-class SenderDetail {
-  String? id;
-  String? userName;
-  String? image;
-
-  SenderDetail({this.id, this.userName, this.image});
-
-  SenderDetail.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userName = json['user_name'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['user_name'] = userName;
-    data['image'] = image;
+    data['result'] = result;
     return data;
   }
 }

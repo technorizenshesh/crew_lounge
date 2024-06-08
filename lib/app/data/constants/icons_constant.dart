@@ -39,4 +39,7 @@ class IconConstants {
   static const String icFire = 'assets/icons/ic_fire.png';
   static const String icDiamond = 'assets/icons/ic_diamond.png';
   static const String icSend = 'assets/icons/ic_send.png';
+  static const String icThreeDot = 'assets/icons/ic_three_dot.png';
+  static const String icLike = 'assets/icons/ic_like.png';
+  static const String icComment = 'assets/icons/ic_comment.png';
 }

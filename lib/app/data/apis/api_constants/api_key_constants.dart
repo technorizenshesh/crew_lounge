@@ -26,8 +26,8 @@ class ApiKeyConstants {
   static const String location = 'location';
   static const String postId = 'post_id';
   static const String countryCode = 'country_code';
-  static const String senderId = 'sender_d';
+  static const String senderId = 'sender_id';
   static const String receiverId = 'receiver_id';
   static const String chatMessage = 'chat_message';
-  static const String chatImage = 'chat_Image';
+  static const String chatImage = 'chat_image';
 }
