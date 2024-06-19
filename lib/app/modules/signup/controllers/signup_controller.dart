@@ -3,7 +3,10 @@ import 'package:crew_lounge/common/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../common/colors.dart';
+import '../../../../common/date_picker.dart';
 import '../../../data/apis/api_constants/api_key_constants.dart';
 import '../../../data/apis/api_methods/api_methods.dart';
 import '../../../data/apis/api_models/get_user_model.dart';
@@ -14,14 +17,17 @@ class SignupController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
   FocusNode focusEmail = FocusNode();
   FocusNode focusPassword = FocusNode();
   FocusNode focusFullName = FocusNode();
   FocusNode focusMobile = FocusNode();
+  FocusNode focusDob = FocusNode();
   final isEmail = false.obs;
   final isPassword = false.obs;
   final isFullName = false.obs;
   final isMobile = false.obs;
+  final isDob = false.obs;
   final passwordHide = true.obs;
   final checkBox = false.obs;
   final showLoading = false.obs;
@@ -33,6 +39,7 @@ class SignupController extends GetxController {
     focusEmail.addListener(onFocusChange);
     focusMobile.addListener(onFocusChange);
     focusPassword.addListener(onFocusChange);
+    focusDob.addListener(onFocusChange);
   }
 
   void onFocusChange() {
@@ -40,6 +47,7 @@ class SignupController extends GetxController {
     isEmail.value = focusEmail.hasFocus;
     isMobile.value = focusMobile.hasFocus;
     isPassword.value = focusPassword.hasFocus;
+    isDob.value = focusDob.hasFocus;
   }
 
   final count = 0.obs;
@@ -87,11 +95,17 @@ class SignupController extends GetxController {
     Get.back();
   }
 
+  clickOnDate() async {
+    final DateTime? picked = await PickDate.pickDateView(color: primaryColor);
+    dobController.text = DateFormat('yyyy-MM-dd').format(picked!);
+  }
+
   signUpApiCalling() async {
     if (fullNameController.text.trim().isNotEmpty &&
         emailController.text.trim().isNotEmpty &&
         mobileController.text.trim().isNotEmpty &&
-        passwordController.text.trim().isNotEmpty) {
+        passwordController.text.trim().isNotEmpty &&
+        dobController.text.isNotEmpty) {
       showLoading.value = true;
       Map<String, String> bodyParams = {
         ApiKeyConstants.userName: fullNameController.text,
@@ -101,6 +115,7 @@ class SignupController extends GetxController {
         ApiKeyConstants.lat: currentPosition!.latitude.toString(),
         ApiKeyConstants.lon: currentPosition!.longitude.toString(),
         ApiKeyConstants.countryCode: countryDailCode.value.toString(),
+        ApiKeyConstants.dob: dobController.text,
       };
       try {
         UserModel? userModel =

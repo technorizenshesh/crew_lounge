@@ -22,4 +22,11 @@ class ApiUrlConstants {
   static const String endPointOfGetChat = '${baseUrl}get_chat';
   static const String endPointOfInsertChat = '${baseUrl}insert_chat';
   static const String endPointOfGetConversation = '${baseUrl}get_conversation';
+  static const String endPointOfAddContactUs = '${baseUrl}add_contact_us';
+  static const String endPointOfDeleteAccount = '${baseUrl}delete_account';
+  static const String endPointOfChangePassword = '${baseUrl}change_password';
+  static const String endPointOfChangeOnlineStatus =
+      '${baseUrl}online_update_status';
+  static const String endPointOfGetNotification =
+      '/CrewLounget/api/get_notification';
 }

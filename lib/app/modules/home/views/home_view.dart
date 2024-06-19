@@ -165,17 +165,35 @@ class HomeView extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                height: 70.px,
-                                width: 70.px,
-                                child: CommonWidgets.imageView(
-                                    image: item.userImage ?? '',
+                              Stack(
+                                children: [
+                                  SizedBox(
                                     height: 70.px,
                                     width: 70.px,
-                                    fit: BoxFit.fill,
-                                    defaultNetworkImage:
-                                        StringConstants.defaultNetworkImage,
-                                    borderRadius: BorderRadius.circular(35.px)),
+                                    child: CommonWidgets.imageView(
+                                        image: item.userImage ?? '',
+                                        height: 70.px,
+                                        width: 70.px,
+                                        fit: BoxFit.fill,
+                                        defaultNetworkImage:
+                                            StringConstants.defaultNetworkImage,
+                                        borderRadius:
+                                            BorderRadius.circular(35.px)),
+                                  ),
+                                  Positioned(
+                                      right: 5.px,
+                                      bottom: 5.px,
+                                      child: Container(
+                                        height: 10.px,
+                                        width: 10.px,
+                                        decoration: BoxDecoration(
+                                            color: item.onlineStatus == 'ONLINE'
+                                                ? Colors.green
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(5.px)),
+                                      ))
+                                ],
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

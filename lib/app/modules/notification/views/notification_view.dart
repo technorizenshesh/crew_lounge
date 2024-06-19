@@ -1,9 +1,11 @@
 import 'package:crew_lounge/app/data/constants/string_constants.dart';
+import 'package:crew_lounge/common/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../common/common_widgets.dart';
+import '../../../data/apis/api_models/get_notification.dart';
 import '../controllers/notification_controller.dart';
 
 class NotificationView extends GetView<NotificationController> {
@@ -17,22 +19,27 @@ class NotificationView extends GetView<NotificationController> {
             title: StringConstants.notifications),
         body: Obx(() {
           controller.count.value;
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10.px,
+          return CommonWidgets.customProgressBar(
+              inAsyncCall: controller.inAsyncCall.value,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 10.px,
+                    ),
+                    showNotifications(),
+                    if (controller.notificationsList.isEmpty)
+                      CommonWidgets.dataNotFound(),
+                    SizedBox(
+                      height: 20.px,
+                    ),
+                  ],
                 ),
-                showNotifications(),
-                SizedBox(
-                  height: 20.px,
-                ),
-              ],
-            ),
-          );
+              ));
         }));
   }
 
@@ -40,11 +47,11 @@ class NotificationView extends GetView<NotificationController> {
     return ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        itemCount: controller.notificationImages.length,
+        itemCount: controller.notificationsList.length,
         itemBuilder: (context, index) {
-          String item = controller.notificationImages[index];
+          NotificationResult item = controller.notificationsList[index];
           return Dismissible(
-            key: Key(item),
+            key: Key(item.id ?? ''),
             direction: DismissDirection.endToStart,
             background: Container(
               alignment: Alignment.centerRight,
@@ -78,7 +85,7 @@ class NotificationView extends GetView<NotificationController> {
               ),
             ),
             onDismissed: (direction) {
-              controller.notificationImages.removeAt(index);
+              controller.notificationsList.removeAt(index);
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text('$item dismissed')));
             },
@@ -91,27 +98,35 @@ class NotificationView extends GetView<NotificationController> {
               child: ListTile(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 5.px, vertical: 3.px),
-                leading: CommonWidgets.appIcons(
-                    assetName: controller.notificationImages[index],
+                leading: CommonWidgets.imageView(
+                    image: item.userImage ?? '',
                     height: 50.px,
                     width: 50.px,
-                    borderRadius: 25.px,
+                    borderRadius: BorderRadius.circular(25.px),
+                    defaultNetworkImage: StringConstants.defaultNetworkImage,
                     fit: BoxFit.fill),
                 title: Text(
-                  controller.titleList[index],
+                  item.userName ?? '',
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium
                       ?.copyWith(fontSize: 16.px, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem.',
+                  item.message ?? '',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall
                       ?.copyWith(fontSize: 12.px, fontWeight: FontWeight.w400),
+                ),
+                trailing: SizedBox(
+                  width: 70.px,
+                  child: Text(
+                    item.dateTime.toString().substring(0, 10),
+                    style: MyTextStyle.titleStyle10b,
+                  ),
                 ),
               ),
             ),

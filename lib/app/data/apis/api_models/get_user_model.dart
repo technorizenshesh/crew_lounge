@@ -37,10 +37,11 @@ class Result {
   String? address;
   String? lat;
   String? lon;
-  String? gender;
-  String? dob;
   String? status;
   String? countryCode;
+  String? gender;
+  String? dob;
+  String? onlineStatus;
 
   Result(
       {this.id,
@@ -57,10 +58,11 @@ class Result {
       this.address,
       this.lat,
       this.lon,
+      this.status,
+      this.countryCode,
       this.gender,
       this.dob,
-      this.status,
-      this.countryCode});
+      this.onlineStatus});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -77,10 +79,11 @@ class Result {
     address = json['address'];
     lat = json['lat'];
     lon = json['lon'];
-    gender = json['gender'];
-    dob = json['dob'];
     status = json['status'];
     countryCode = json['country_code'];
+    gender = json['gender'];
+    dob = json['dob'];
+    onlineStatus = json['online_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,10 +102,11 @@ class Result {
     data['address'] = address;
     data['lat'] = lat;
     data['lon'] = lon;
-    data['dob'] = dob;
-    data['gender'] = gender;
     data['status'] = status;
     data['country_code'] = countryCode;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['online_status'] = onlineStatus;
     return data;
   }
 }

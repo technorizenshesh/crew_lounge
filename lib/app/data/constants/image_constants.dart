@@ -5,4 +5,5 @@ class ImageConstants {
   static const imgOtpBanner = 'assets/images/img_otp_banner.png';
   static const imgTermsCondition = 'assets/images/img_term_condition.png';
   static const imgPrivacyPolicy = 'assets/images/img_privacy_policy.png';
+  static const imgContactUs = 'assets/images/img_contact_us.png';
 }

@@ -61,7 +61,10 @@ class HomeController extends GetxController {
   }
 
   clickOnNotificationIcon() {
-    Get.toNamed(Routes.NOTIFICATION);
+    Map<String, String> data = {
+      ApiKeyConstants.userId: userId,
+    };
+    Get.toNamed(Routes.NOTIFICATION, parameters: data);
   }
 
   clickOnChatIcon(int index) {

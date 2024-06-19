@@ -61,10 +61,20 @@ class ProfileView extends GetView<ProfileController> {
                                 StringConstants.defaultNetworkImage,
                             borderRadius: BorderRadius.circular(50.px)),
                         SizedBox(height: 5.px),
-                        Text(
-                          controller.userData!.result!.userName ?? '',
-                          style: MyTextStyle.titleStyle18bb,
-                          textAlign: TextAlign.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              controller.userData!.result!.userName ?? '',
+                              style: MyTextStyle.titleStyle18bb,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              controller.getZodiacSign(
+                                  controller.userData!.result!.dob ?? ''),
+                              style: MyTextStyle.titleStyle12b,
+                            )
+                          ],
                         ),
                         Text(
                           controller.userData!.result!.email ?? '',

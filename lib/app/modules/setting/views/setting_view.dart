@@ -182,6 +182,25 @@ class SettingView extends GetView<SettingController> {
                     height: 40.px,
                     fit: BoxFit.fill),
                 title: Text(
+                  StringConstants.deleteAccount,
+                  style: MyTextStyle.titleStyle13bb,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20.px,
+                  color: Colors.black54,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  controller.openNewPage(9);
+                },
+                leading: CommonWidgets.appIcons(
+                    assetName: IconConstants.icLogout,
+                    width: 40.px,
+                    height: 40.px,
+                    fit: BoxFit.fill),
+                title: Text(
                   StringConstants.logout,
                   style: MyTextStyle.titleStyle13bb,
                 ),

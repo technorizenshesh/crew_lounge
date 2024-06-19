@@ -13,91 +13,99 @@ class NavBarView extends GetView<NavBarController> {
   const NavBarView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        extendBody: true,
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: controller.body(),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 20,
-                color: Colors.black.withOpacity(.1),
-              )
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  SafeArea(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.px, vertical: 8.px),
-                      child: GNav(
+    return Obx(() {
+      controller.count.value;
+      return WillPopScope(
+        onWillPop: () async {
+          bool shouldExit =
+              await controller.showExitConfirmationDialog(context);
+          return shouldExit;
+        },
+        child: Scaffold(
+          extendBody: true,
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: controller.body(),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20,
+                  color: Colors.black.withOpacity(.1),
+                )
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    SafeArea(
+                      child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 10.px, vertical: 4.px),
-                        tabs: [
-                          button(
-                              selectImage: IconConstants.icHomeColor,
-                              image: IconConstants.icHome,
-                              text: StringConstants.home,
-                              index: 0),
-                          button(
-                              selectImage: IconConstants.icFriendsColor,
-                              image: IconConstants.icFriends,
-                              text: StringConstants.friends,
-                              index: 1),
-                          button(
-                              selectImage: IconConstants.icChat,
-                              image: IconConstants.icChat,
-                              text: '',
-                              index: 2),
-                          button(
-                              selectImage: IconConstants.icNavChatColor,
-                              image: IconConstants.icNavChat,
-                              text: StringConstants.chats,
-                              index: 3),
-                          button(
-                              selectImage: IconConstants.icProfileColor,
-                              image: IconConstants.icProfile,
-                              text: StringConstants.profile,
-                              index: 4),
-                        ],
-                        selectedIndex: selectedIndex.value,
-                        onTabChange: (index) {
-                          selectedIndex.value = index;
+                            horizontal: 10.px, vertical: 8.px),
+                        child: GNav(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.px, vertical: 4.px),
+                          tabs: [
+                            button(
+                                selectImage: IconConstants.icHomeColor,
+                                image: IconConstants.icHome,
+                                text: StringConstants.home,
+                                index: 0),
+                            button(
+                                selectImage: IconConstants.icFriendsColor,
+                                image: IconConstants.icFriends,
+                                text: StringConstants.friends,
+                                index: 1),
+                            button(
+                                selectImage: IconConstants.icChat,
+                                image: IconConstants.icChat,
+                                text: '',
+                                index: 2),
+                            button(
+                                selectImage: IconConstants.icNavChatColor,
+                                image: IconConstants.icNavChat,
+                                text: StringConstants.chats,
+                                index: 3),
+                            button(
+                                selectImage: IconConstants.icProfileColor,
+                                image: IconConstants.icProfile,
+                                text: StringConstants.profile,
+                                index: 4),
+                          ],
+                          selectedIndex: selectedIndex.value,
+                          onTabChange: (index) {
+                            selectedIndex.value = index;
+                            controller.increment();
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 20.px),
+                      child: GestureDetector(
+                        onTap: () {
+                          selectedIndex.value = 2;
                           controller.increment();
                         },
+                        child: CommonWidgets.appIcons(
+                          width: 52.px,
+                          height: 52.px,
+                          assetName: IconConstants.icNavAdd,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20.px),
-                    child: GestureDetector(
-                      onTap: () {
-                        selectedIndex.value = 2;
-                        controller.increment();
-                      },
-                      child: CommonWidgets.appIcons(
-                        width: 52.px,
-                        height: 52.px,
-                        assetName: IconConstants.icNavAdd,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   button(

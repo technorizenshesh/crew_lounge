@@ -117,6 +117,27 @@ class SignupView extends GetView<SignupController> {
                             height: 10.px,
                           ),
                           CommonWidgets.commonTextFieldForLoginSignUP(
+                              focusNode: controller.focusDob,
+                              controller: controller.dobController,
+                              isCard: controller.isDob.value,
+                              hintText: StringConstants.dob,
+                              hintStyle: MyTextStyle.titleStyle14b,
+                              style: MyTextStyle.titleStyle14bb,
+                              readOnly: true,
+                              keyboardType: TextInputType.datetime,
+                              borderRadius: 30.px,
+                              prefixIcon: Icon(
+                                Icons.date_range,
+                                size: 20.px,
+                                color: Colors.black45,
+                              ),
+                              onTap: () {
+                                controller.clickOnDate();
+                              }),
+                          SizedBox(
+                            height: 10.px,
+                          ),
+                          CommonWidgets.commonTextFieldForLoginSignUP(
                               obscureText: controller.passwordHide.value,
                               focusNode: controller.focusPassword,
                               controller: controller.passwordController,

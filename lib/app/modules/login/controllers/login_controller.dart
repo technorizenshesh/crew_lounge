@@ -66,22 +66,27 @@ class LoginController extends GetxController {
   clickOnLoginButton() async {
     if (emailController.text.trim().isNotEmpty &&
         passwordController.text.trim().isNotEmpty) {
-      showLoading.value = true;
-      Map<String, String> bodyParams = {
-        ApiKeyConstants.email: emailController.text,
-        ApiKeyConstants.password: passwordController.text
-      };
-      UserModel? userModel = await ApiMethods.login(bodyParams: bodyParams);
-      if (userModel != null &&
-          userModel.result != null &&
-          userModel.result != null &&
-          userModel.result!.id != null) {
-        SharedPreferences sp = await SharedPreferences.getInstance();
-        sp.setString(ApiKeyConstants.token, userModel.result!.token!);
-        sp.setString(ApiKeyConstants.userId, userModel.result!.id!);
-        Get.toNamed(Routes.NAV_BAR);
-      } else {
-        CommonWidgets.snackBarView(title: userModel!.message!);
+      try {
+        showLoading.value = true;
+        Map<String, String> bodyParams = {
+          ApiKeyConstants.email: emailController.text,
+          ApiKeyConstants.password: passwordController.text
+        };
+        UserModel? userModel = await ApiMethods.login(bodyParams: bodyParams);
+        if (userModel != null &&
+            userModel.result != null &&
+            userModel.result != null &&
+            userModel.result!.id != null) {
+          SharedPreferences sp = await SharedPreferences.getInstance();
+          sp.setString(ApiKeyConstants.token, userModel.result!.token!);
+          sp.setString(ApiKeyConstants.userId, userModel.result!.id!);
+          Get.toNamed(Routes.NAV_BAR);
+        } else {
+          CommonWidgets.snackBarView(title: userModel!.message!);
+        }
+      } catch (e) {
+        showLoading.value = false;
+        // CommonWidgets.snackBarView(title: 'Wrong email and password...');
       }
       showLoading.value = false;
     } else {

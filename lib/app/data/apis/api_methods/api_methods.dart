@@ -10,7 +10,9 @@ import '../../../../common/http_methods.dart';
 import '../api_constants/api_url_constants.dart';
 import '../api_models/get_add_post_model.dart';
 import '../api_models/get_chat_message_model.dart';
+import '../api_models/get_contact_us_model.dart';
 import '../api_models/get_my_posts_model.dart';
+import '../api_models/get_notification.dart';
 import '../api_models/get_user_model.dart';
 
 class ApiMethods {
@@ -304,6 +306,103 @@ class ApiMethods {
     );
     if (response != null) {
       return response;
+    }
+    return null;
+  }
+
+  /// Contact Us api
+  static Future<ContactUsModel?> contactUsApi(
+      {void Function(int)? checkResponse,
+      Map<String, dynamic>? bodyParams,
+      bool wantSnackBar = false}) async {
+    ContactUsModel contactUsModel;
+    http.Response? response = await MyHttp.postMethod(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfAddContactUs,
+      checkResponse: checkResponse,
+      wantSnackBar: wantSnackBar,
+    );
+    if (response != null) {
+      contactUsModel = ContactUsModel.fromJson(jsonDecode(response.body));
+      return contactUsModel;
+    }
+    return null;
+  }
+
+  /// Delete Account api
+  static Future<SimpleResponseModel?> deleteAccountApi(
+      {void Function(int)? checkResponse,
+      Map<String, dynamic>? bodyParams,
+      bool wantSnackBar = true}) async {
+    SimpleResponseModel simpleResponseModel;
+    http.Response? response = await MyHttp.postMethod(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfDeleteAccount,
+      checkResponse: checkResponse,
+      wantSnackBar: wantSnackBar,
+    );
+    if (response != null) {
+      simpleResponseModel =
+          SimpleResponseModel.fromJson(jsonDecode(response.body));
+      return simpleResponseModel;
+    }
+    return null;
+  }
+
+  /// Change Online Status api
+  static Future<UserModel?> changeOnlineStatusApi(
+      {void Function(int)? checkResponse,
+      Map<String, dynamic>? bodyParams,
+      bool wantSnackBar = false}) async {
+    UserModel userModel;
+    http.Response? response = await MyHttp.postMethod(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfChangeOnlineStatus,
+      checkResponse: checkResponse,
+      wantSnackBar: wantSnackBar,
+    );
+    if (response != null) {
+      userModel = UserModel.fromJson(jsonDecode(response.body));
+      return userModel;
+    }
+    return null;
+  }
+
+  /// Change Password api
+  static Future<SimpleResponseModel?> changePassword(
+      {void Function(int)? checkResponse,
+      Map<String, dynamic>? bodyParams,
+      bool wantSnackBar = true}) async {
+    SimpleResponseModel simpleResponseModel;
+    http.Response? response = await MyHttp.postMethod(
+      bodyParams: bodyParams,
+      url: ApiUrlConstants.endPointOfChangePassword,
+      checkResponse: checkResponse,
+      wantSnackBar: wantSnackBar,
+    );
+    if (response != null) {
+      simpleResponseModel =
+          SimpleResponseModel.fromJson(jsonDecode(response.body));
+      return simpleResponseModel;
+    }
+    return null;
+  }
+
+  /// Get Notification List ....
+  static Future<NotificationModel?> getNotificationApi({
+    void Function(int)? checkResponse,
+    required Map<String, dynamic> queryParameters,
+  }) async {
+    NotificationModel? notificationModel;
+    http.Response? response = await MyHttp.getMethodParams(
+      queryParameters: queryParameters,
+      baseUri: ApiUrlConstants.baseUrlForGetMethodParams,
+      endPointUri: ApiUrlConstants.endPointOfGetNotification,
+      checkResponse: checkResponse,
+    );
+    if (response != null) {
+      notificationModel = NotificationModel.fromJson(jsonDecode(response.body));
+      return notificationModel;
     }
     return null;
   }

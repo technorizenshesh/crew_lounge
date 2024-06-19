@@ -11,6 +11,7 @@ class ApiKeyConstants {
   static const String type = 'type';
   static const String error = 'error';
   static const String message = 'message';
+  static const String name = 'name';
   static const String otp = 'otp';
   static const String userId = 'user_id';
   static const String otherUserId = 'other_user_id';
@@ -30,4 +31,5 @@ class ApiKeyConstants {
   static const String receiverId = 'receiver_id';
   static const String chatMessage = 'chat_message';
   static const String chatImage = 'chat_image';
+  static const String onlineStatus = 'online_status';
 }

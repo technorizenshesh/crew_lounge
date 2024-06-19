@@ -439,6 +439,7 @@ class CommonWidgets {
                     focusNode: focusNode,
                     obscureText: obscureText,
                     onTap: onTap,
+                    maxLines: maxLines ?? 1,
                     maxLength: maxLength,
                     cursorHeight: cursorHeight,
                     cursorColor: Theme.of(Get.context!).primaryColor,

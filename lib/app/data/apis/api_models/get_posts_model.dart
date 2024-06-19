@@ -39,6 +39,7 @@ class GetPostResult {
   String? distance;
   String? userName;
   String? userImage;
+  String? onlineStatus;
 
   GetPostResult(
       {this.id,
@@ -51,7 +52,8 @@ class GetPostResult {
       this.dateTime,
       this.distance,
       this.userName,
-      this.userImage});
+      this.userImage,
+      this.onlineStatus});
 
   GetPostResult.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +67,7 @@ class GetPostResult {
     distance = json['distance'];
     userName = json['user_name'];
     userImage = json['user_image'];
+    onlineStatus = json['online_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +83,7 @@ class GetPostResult {
     data['distance'] = distance;
     data['user_name'] = userName;
     data['user_image'] = userImage;
+    data['online_status'] = onlineStatus;
     return data;
   }
 }

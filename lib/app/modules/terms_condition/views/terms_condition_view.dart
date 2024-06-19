@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../common/custom_triangle.dart';
 import '../controllers/terms_condition_controller.dart';
 
 class TermsConditionView extends GetView<TermsConditionController> {
@@ -35,27 +34,6 @@ class TermsConditionView extends GetView<TermsConditionController> {
                   textAlign: TextAlign.justify,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomPaint(
-                      painter: CustomTriangle(showRightSide: false),
-                      size: const Size(15, 25),
-                    ),
-                    Container(
-                      height: 100,
-                      width: 200,
-                      color: Colors.blue,
-                    ),
-                    CustomPaint(
-                      painter: CustomTriangle(showRightSide: true),
-                      size: const Size(15, 25),
-                    ),
-                  ],
-                ),
-              )
             ],
           );
         }));

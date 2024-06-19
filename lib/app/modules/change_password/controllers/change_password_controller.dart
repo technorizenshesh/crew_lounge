@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../../../../common/common_widgets.dart';
 import '../../../data/apis/api_constants/api_key_constants.dart';
+import '../../../data/apis/api_methods/api_methods.dart';
+import '../../../data/apis/api_models/get_simple_response_model.dart';
 import '../../../data/constants/string_constants.dart';
 
 class ChangePasswordController extends GetxController {
@@ -12,7 +14,6 @@ class ChangePasswordController extends GetxController {
 
   final isCurrentPassword = false.obs;
   final currentPasswordHide = false.obs;
-  final passwordHide = true.obs;
   TextEditingController currentPasswordController = TextEditingController();
   FocusNode focusCurrentPassword = FocusNode();
 
@@ -48,11 +49,6 @@ class ChangePasswordController extends GetxController {
     super.onClose();
   }
 
-  clickOnPasswordEyeButton() {
-    passwordHide.value = !passwordHide.value;
-    increment();
-  }
-
   void startListener() {
     focusCurrentPassword.addListener(onFocusChange);
     focusNewPassword.addListener(onFocusChange);
@@ -68,15 +64,21 @@ class ChangePasswordController extends GetxController {
   void increment() => count.value++;
 
   clickOnSaveButton() async {
-    if (currentPasswordController.text.trim().isNotEmpty) {
+    if (currentPasswordController.text.trim().isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty) {
       inAsyncCall.value = true;
       bodyParams = {
         ApiKeyConstants.password: confirmPasswordController.text.toString(),
         ApiKeyConstants.oldPassword: currentPasswordController.text.toString(),
         ApiKeyConstants.userId: userId,
       };
-      //http.Response? response = await ApiMethods.changePassword(bodyParams: bodyParams);
-
+      SimpleResponseModel? simpleResponseModel =
+          await ApiMethods.changePassword(bodyParams: bodyParams);
+      if (simpleResponseModel != null && simpleResponseModel.status == '1') {
+        CommonWidgets.showMyToastMessage(simpleResponseModel.message ?? '');
+      } else {
+        CommonWidgets.showMyToastMessage(simpleResponseModel?.message ?? '');
+      }
       inAsyncCall.value = false;
     } else {
       CommonWidgets.snackBarView(title: StringConstants.allFieldsRequired);
@@ -85,13 +87,16 @@ class ChangePasswordController extends GetxController {
 
   clickOnCurrentPasswordEyeButton() {
     currentPasswordHide.value = !currentPasswordHide.value;
+    increment();
   }
 
   clickOnNewPasswordEyeButton() {
     newPasswordHide.value = !newPasswordHide.value;
+    increment();
   }
 
   clickOnConfirmPasswordEyeButton() {
     confirmPasswordHide.value = !confirmPasswordHide.value;
+    increment();
   }
 }

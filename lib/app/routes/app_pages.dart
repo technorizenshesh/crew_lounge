@@ -6,6 +6,8 @@ import '../modules/chats/bindings/chats_binding.dart';
 import '../modules/chats/views/chats_view.dart';
 import '../modules/close_friends/bindings/close_friends_binding.dart';
 import '../modules/close_friends/views/close_friends_view.dart';
+import '../modules/contact_us/bindings/contact_us_binding.dart';
+import '../modules/contact_us/views/contact_us_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/friends/bindings/friends_binding.dart';
@@ -183,6 +185,11 @@ class AppPages {
       name: _Paths.MESSAGE,
       page: () => const MessageView(),
       binding: MessageBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONTACT_US,
+      page: () => const ContactUsView(),
+      binding: ContactUsBinding(),
     ),
   ];
 }

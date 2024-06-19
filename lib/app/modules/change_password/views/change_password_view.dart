@@ -6,6 +6,7 @@ import '../../../../common/colors.dart';
 import '../../../../common/common_methods.dart';
 import '../../../../common/common_widgets.dart';
 import '../../../../common/progress_bar.dart';
+import '../../../../common/text_styles.dart';
 import '../../../data/constants/string_constants.dart';
 import '../controllers/change_password_controller.dart';
 
@@ -23,45 +24,17 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
             extendBody: true,
             resizeToAvoidBottomInset: false,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.px, vertical: 10.px),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CommonWidgets.commonElevatedButton(
-                    onPressed: () {
-                      if (controller
-                              .confirmPasswordController.text.isNotEmpty &&
-                          controller.newPasswordController.text.isNotEmpty &&
-                          controller
-                              .currentPasswordController.text.isNotEmpty) {
-                        if (controller.newPasswordController.text ==
-                            controller.confirmPasswordController.text) {
-                          controller.clickOnSaveButton();
-                        } else {
-                          CommonWidgets.snackBarView(
-                              title:
-                                  'New Password and confirm password are not match.');
-                        }
-                      } else {
-                        CommonWidgets.snackBarView(
-                            title: StringConstants.allFieldsRequired);
-                      }
-                    },
-                    child: Text(
-                      StringConstants.save.tr,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  SizedBox(height: 10.px),
-                ],
-              ),
-            ),
+            bottomNavigationBar: CommonWidgets.commonGradientButton(
+                onPressed: () {
+                  controller.clickOnSaveButton();
+                },
+                child: Text(
+                  StringConstants.submit,
+                  style: MyTextStyle.titleStyle16bw,
+                ),
+                isLoading: controller.inAsyncCall.value,
+                buttonMargin:
+                    EdgeInsets.only(left: 20.px, right: 20.px, bottom: 10.px)),
             appBar: CommonWidgets.appBar(title: StringConstants.changePassword),
             body: ListView(
               children: [
@@ -79,9 +52,10 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                         hintText: StringConstants.currentPassword,
                         hintTextColor: controller.isCurrentPassword.value,
                         suffixIcon: GestureDetector(
-                          onTap: () => controller.clickOnPasswordEyeButton(),
+                          onTap: () =>
+                              controller.clickOnCurrentPasswordEyeButton(),
                           child: Icon(
-                            controller.passwordHide.value
+                            controller.currentPasswordHide.value
                                 ? Icons.visibility_off
                                 : Icons.visibility,
                             color: primary2Color,
@@ -98,9 +72,9 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                         hintText: StringConstants.newPassword,
                         hintTextColor: controller.isNewPassword.value,
                         suffixIcon: GestureDetector(
-                          onTap: () => controller.clickOnPasswordEyeButton(),
+                          onTap: () => controller.clickOnNewPasswordEyeButton(),
                           child: Icon(
-                            controller.passwordHide.value
+                            controller.newPasswordHide.value
                                 ? Icons.visibility_off
                                 : Icons.visibility,
                             color: primary2Color,
@@ -117,9 +91,10 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                         hintText: StringConstants.confirmPassword.tr,
                         hintTextColor: controller.isConfirmPassword.value,
                         suffixIcon: GestureDetector(
-                          onTap: () => controller.clickOnPasswordEyeButton(),
+                          onTap: () =>
+                              controller.clickOnConfirmPasswordEyeButton(),
                           child: Icon(
-                            controller.passwordHide.value
+                            controller.confirmPasswordHide.value
                                 ? Icons.visibility_off
                                 : Icons.visibility,
                             color: primary2Color,

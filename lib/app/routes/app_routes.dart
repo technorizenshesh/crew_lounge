@@ -29,6 +29,7 @@ abstract class Routes {
   static const CLOSE_FRIENDS = _Paths.CLOSE_FRIENDS;
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
   static const MESSAGE = _Paths.MESSAGE;
+  static const CONTACT_US = _Paths.CONTACT_US;
 }
 
 abstract class _Paths {
@@ -59,4 +60,5 @@ abstract class _Paths {
   static const CLOSE_FRIENDS = '/close-friends';
   static const CHANGE_PASSWORD = '/change-password';
   static const MESSAGE = '/message';
+  static const CONTACT_US = '/contact-us';
 }

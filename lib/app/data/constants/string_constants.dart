@@ -84,6 +84,9 @@ class StringConstants {
   static const String popularQA = 'Popular Q&A';
   static const String seeMore = 'See more';
   static const String delete = 'Delete';
+  static const String deleteAccount = 'Delete Account';
+  static const String wouldYouLikeToDeleteAccount =
+      'Would you like to delete account?';
   static const String notifications = 'Notifications';
   static const String currentPassword = 'Current Password';
   static const String changePassword = 'Change Password';
@@ -93,6 +96,9 @@ class StringConstants {
   static const String chooseImageFromTheOptionsBelow =
       'Choose Image From The Options Below';
   static const String selectImage = 'Select Image';
+  static const String message = 'Message';
+  static const String exitApp = 'Exit App';
+  static const String doYouWantToExitTheApp = 'Do you want to exit the app?';
 
   static const String defaultNetworkImage =
       'https://media.istockphoto.com/photos/young-beautiful-woman-picture-id1294339577?b=1&k=20&m=1294339577&s=170667a&w=0&h=_5-SM0Dmhb1fhRdz64lOUJMy8oic51GB_2_IPlhCCnU=';
