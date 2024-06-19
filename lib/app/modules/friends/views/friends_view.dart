@@ -90,7 +90,7 @@ class FriendsView extends GetView<FriendsController> {
                       height: 110.px,
                       width: MediaQuery.of(context).size.width,
                       padding:
-                          EdgeInsets.only(left: 5.px, right: 5.px, top: 5.px),
+                          EdgeInsets.only(left: 5.px, right: 5.px, top: 4.px),
                       decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.5),
                           borderRadius: BorderRadius.only(
